@@ -1,6 +1,7 @@
 <script>
   export let content;
   export let type;
+  export let id;
 </script>
 
 <style type="text/scss">
@@ -9,10 +10,6 @@
   div {
     box-sizing: border-box;
     padding: 100px;
-  }
-
-  h1 {
-    font-size: 3em;
   }
 
   .fixed {
@@ -33,15 +30,7 @@
 </style>
 
 <section>
-  <div class={type === 'fixed' ? 'fixed' : 'slider'}>
-    <!-- <div class="content"> -->
-    <h1>
-      “Design is not how it looks like and feels like. Design is how it works”
-    </h1>
-    <p>
-      This quote from the legendary Steve Jobs sums up what i do, building
-      things that work. I focus on creating systems
-    </p>
-    <!-- </div> -->
+  <div {id} class={type === 'fixed' ? 'fixed' : 'slider'}>
+    <slot />
   </div>
 </section>
