@@ -1,5 +1,5 @@
 <script context="module">
-  export function typewriter(node, { speed = 300 }) {
+  export function typewriter(node, { speed = 150 }) {
     const valid =
       node.childNodes.length === 1 && node.childNodes[0].nodeType === 3;
 

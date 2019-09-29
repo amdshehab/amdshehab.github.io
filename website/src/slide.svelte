@@ -1,7 +1,19 @@
 <script>
+  import { typewriter } from "./helpers/animations.svelte";
+  import { onMount } from "svelte";
+
   export let content;
-  export let type;
-  export let id;
+  export let type = "slider";
+  export let headerId;
+  export let isInView;
+  export let observer;
+
+  let node;
+  if (type !== "fixed") {
+    onMount(() => {
+      observer.observe(node);
+    });
+  }
 </script>
 
 <style type="text/scss">
@@ -30,7 +42,13 @@
 </style>
 
 <section>
-  <div {id} class={type === 'fixed' ? 'fixed' : 'slider'}>
+  <div
+    id="slide-{headerId}"
+    bind:this={node}
+    class={type === 'fixed' ? 'fixed' : 'slider'}>
+    {#if isInView && type !== 'fixed'}
+      <h1 in:typewriter>{headerId}</h1>
+    {/if}
     <slot />
   </div>
 </section>
