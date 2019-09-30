@@ -20,13 +20,16 @@
   $color: pink;
 
   div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     box-sizing: border-box;
-    padding: 100px;
+    padding: 140px;
   }
 
   .fixed {
     min-height: 100vh;
-    @media screen and (min-width: 1200px) {
+    @media screen and (min-width: 1000px) {
       position: fixed;
       width: 40vw;
     }
@@ -35,7 +38,7 @@
   .slider {
     min-height: 80vh;
     background-color: $color;
-    @media screen and (min-width: 1200px) {
+    @media screen and (min-width: 1000px) {
       margin-left: 40vw;
     }
   }
@@ -47,7 +50,7 @@
     bind:this={node}
     class={type === 'fixed' ? 'fixed' : 'slider'}>
     {#if isInView && type !== 'fixed'}
-      <h1 in:typewriter>{headerId}</h1>
+      <h1>{headerId}</h1>
     {/if}
     <slot />
   </div>

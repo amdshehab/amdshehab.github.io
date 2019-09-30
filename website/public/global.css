@@ -8,6 +8,21 @@
   src: url("./fonts/Apex\ Mk3-Medium.otf");
 }
 
+@font-face {
+  font-family: "Moon-Light";
+  src: url("./fonts/Moon2.0-Light.otf");
+}
+
+@font-face {
+  font-family: "Moon-Regular";
+  src: url("./fonts/Moon2.0-Regular.otf");
+}
+
+@font-face {
+  font-family: "Moon-Bold";
+  src: url("./fonts/Moon2.0-Bold.otf");
+}
+
 html,
 body {
   position: relative;
