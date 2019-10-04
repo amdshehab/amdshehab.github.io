@@ -23,6 +23,16 @@
   src: url("./fonts/Moon2.0-Bold.otf");
 }
 
+@font-face {
+  font-family: "Anodina-Bold";
+  src: url("./fonts/Anodina/Anodina-Bold.otf");
+}
+
+@font-face {
+  font-family: "Anodina-Regular";
+  src: url("./fonts/Anodina/Anodina-Regular.otf");
+}
+
 html,
 body {
   position: relative;

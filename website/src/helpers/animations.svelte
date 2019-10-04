@@ -1,23 +1,17 @@
 <script context="module">
-  export function typewriter(node, { speed = 150 }) {
-    const valid =
-      node.childNodes.length === 1 && node.childNodes[0].nodeType === 3;
+  export const fadeAndSlide = (node, delay) => {
+    const slideAndFade = [
+      { transform: "translateX(-25px)", opacity: 0 },
+      { transform: "translateY(0px)", opacity: 1 }
+    ];
 
-    if (!valid) {
-      throw new Error(
-        `This transition only works on elements with a single text node child`
-      );
-    }
-
-    const text = node.textContent;
-    const duration = text.length * speed;
-
-    return {
-      duration,
-      tick: t => {
-        const i = ~~(text.length * t);
-        node.textContent = text.slice(0, i);
-      }
+    const options = {
+      duration: 500,
+      fill: "forwards",
+      easing: "ease-out",
+      delay
     };
-  }
+
+    node.animate(slideAndFade, options);
+  };
 </script>

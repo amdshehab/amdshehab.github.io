@@ -1,41 +1,46 @@
 <script>
   import { onMount } from "svelte";
-  import { quartInOut, quadInOut } from "svelte/easing";
+  import { quartInOut, quadInOut, sineIn, sineInOut } from "svelte/easing";
   import { fade, fly } from "svelte/transition";
   import Slide from "./slide.svelte";
-  import { typewriter } from "./helpers/animations.svelte";
+  import { fadeAndSlide } from "./helpers/animations.svelte";
+  import { setupIO } from "./helpers/observer.svelte";
+  import { intersectingID } from "./stores.js";
   export let name;
 
   let linkedinIcon = "./images/linkedin.png";
-  let visible = false;
-  let header1visible = false;
-  let header2visible = false;
-  let header3visible = false;
-  let observer = new IntersectionObserver(
-    changes => {
-      for (const change of changes) {
-        if (change.isIntersecting) {
-          if (change.target.id === "slide-001") {
-            header1visible = true;
-          } else if (change.target.id === "slide-002") {
-            header2visible = true;
-          } else if (change.target.id === "slide-003") {
-            header3visible = true;
-          }
-        }
-      }
-    },
-    {
-      rootMargin: "-30%"
-    }
-  );
+
+  let node1, node2, node3, node4, node5;
+
+  const slides = [
+    { id: "s-01", active: false, content: "fooo" },
+    { id: "s-02", active: false, content: "bar" },
+    { id: "s-03", active: false, content: "baz" }
+  ];
+
+  const observer = setupIO(slides);
+
+  const unSubscribe = intersectingID.subscribe(id => (slides = slides));
 
   onMount(() => {
-    visible = true;
+    fadeAndSlide(node1, 300);
+    fadeAndSlide(node2, 500);
+    fadeAndSlide(node3, 1000);
+    fadeAndSlide(node4, 850);
+    fadeAndSlide(node5, 700);
   });
 </script>
 
-<style>
+<style type="text/scss">
+  a {
+    display: inline-block;
+    transition: all 0.5s;
+    &:hover {
+      transform: translateY(-10px);
+      filter: invert(0.4) sepia(1) saturate(2.8) hue-rotate(360deg)
+        brightness(1.2);
+    }
+  }
   img {
     width: 50px;
     height: 50px;
@@ -43,47 +48,52 @@
   }
 
   p {
-    font-family: Moon-Regular;
-    font-size: 30px;
+    font-family: Anodina-Bold;
+    font-size: 1.3em;
+  }
+
+  .zero-opacity {
+    opacity: 0;
   }
 </style>
 
 <div>
-  {#if visible}
-    <Slide type="fixed">
-      <h1 in:fly={{ x: -50, duration: 200, easing: quadInOut }}>
-        I build stuff that works.
-      </h1>
-      <p in:fly={{ x: -50, duration: 200, delay: 300, easing: quadInOut }}>
-        Currently
-        <strong>engineering</strong>
-        awesome things at The Times
-      </p>
-      <div>
-        <a href="linkedin.com/in/ahmedshehab3">
-          <img
-            in:fly={{ x: -100, duration: 300, delay: 700, easing: quartInOut }}
-            src="./images/linkedin.png"
-            alt="" />
-        </a>
-        <a href="linkedin.com/in/ahmedshehab3">
-          <img
-            in:fly={{ x: -100, duration: 300, delay: 600, easing: quartInOut }}
-            src="./images/github-logo.png"
-            alt="" />
-        </a>
-        <a href="linkedin.com/in/ahmedshehab3">
-          <img
-            in:fly={{ x: -100, duration: 300, delay: 500, easing: quartInOut }}
-            src="./images/gmail.png"
-            alt="" />
-        </a>
-      </div>
-    </Slide>
-  {/if}
-  <Slide headerId="001" isInView={header1visible} {observer}>
-    <h1>Projects</h1>
+  <Slide type="fixed">
+    <h1 class="zero-opacity" bind:this={node1}>I build stuff that works.</h1>
+    <p class="zero-opacity" bind:this={node2}>
+      I build e2e applications using JavaScript, Currently engineering awesome
+      things @The Times
+    </p>
+    <div>
+      <a href="linkedin.com/in/ahmedshehab3">
+        <img
+          class="zero-opacity"
+          bind:this={node3}
+          src="./images/linkedin.png"
+          alt="" />
+      </a>
+      <a href="linkedin.com/in/ahmedshehab3">
+        <img
+          class="zero-opacity"
+          bind:this={node4}
+          src="./images/github-logo.png"
+          alt="" />
+      </a>
+      <a href="linkedin.com/in/ahmedshehab3">
+        <img
+          class="zero-opacity"
+          bind:this={node5}
+          src="./images/gmail.png"
+          alt="" />
+      </a>
+    </div>
   </Slide>
-  <Slide headerId="002" isInView={header2visible} {observer} />
-  <Slide headerId="003" isInView={header3visible} {observer} />
+
+  {#each slides as { active, id }}
+    <Slide {id} isInView={active} {observer}>
+      {#if active}
+        <h1>Projects</h1>
+      {/if}
+    </Slide>
+  {/each}
 </div>
