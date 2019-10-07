@@ -3,6 +3,7 @@
   import { quartInOut, quadInOut, sineIn, sineInOut } from "svelte/easing";
   import { fade, fly } from "svelte/transition";
   import Slide from "./slide.svelte";
+  import Projects from "./projects.svelte";
   import { fadeAndSlide } from "./helpers/animations.svelte";
   import { setupIO } from "./helpers/observer.svelte";
   import { intersectingID } from "./stores.js";
@@ -89,8 +90,12 @@
     </div>
   </Slide>
 
+  <Slide type="slider" {observer}>
+    <Projects />
+  </Slide>
+
   {#each slides as { active, id }}
-    <Slide {id} isInView={active} {observer}>
+    <Slide {id} isInView={active} {observer} type="slider">
       {#if active}
         <h1>Projects</h1>
       {/if}

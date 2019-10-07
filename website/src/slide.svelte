@@ -21,11 +21,11 @@
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-    padding: 140px;
   }
 
   .fixed {
     min-height: 100vh;
+    padding: 140px;
     @media screen and (min-width: 1000px) {
       position: fixed;
       width: 40vw;
@@ -33,8 +33,8 @@
   }
 
   .slider {
-    min-height: 80vh;
-    background-color: $color;
+    height: 100vh;
+    // background-color: $color;
     @media screen and (min-width: 1000px) {
       margin-left: 40vw;
     }
