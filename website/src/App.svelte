@@ -2,37 +2,39 @@
   import { onMount } from "svelte";
   import { quartInOut, quadInOut, sineIn, sineInOut } from "svelte/easing";
   import { fade, fly } from "svelte/transition";
-  import Slide from "./slide.svelte";
-  import Projects from "./projects.svelte";
   import { fadeAndSlide } from "./helpers/animations.svelte";
   import { setupIO } from "./helpers/observer.svelte";
   import { intersectingID } from "./stores.js";
+  import Home from "./home.svelte";
   export let name;
 
   let linkedinIcon = "./images/linkedin.png";
 
-  let node1, node2, node3, node4, node5;
+  // const slides = [
+  //   {
+  //     id: "s-01",
+  //     active: false,
+  //     content: "fooo",
+  //     backgroundColor: "limegreen"
+  //   }
+  // ];
 
-  const slides = [
-    { id: "s-01", active: false, content: "fooo" },
-    { id: "s-02", active: false, content: "bar" },
-    { id: "s-03", active: false, content: "baz" }
-  ];
+  // const observer = setupIO(slides);
 
-  const observer = setupIO(slides);
-
-  const unSubscribe = intersectingID.subscribe(id => (slides = slides));
-
-  onMount(() => {
-    fadeAndSlide(node1, 300);
-    fadeAndSlide(node2, 500);
-    fadeAndSlide(node3, 1000);
-    fadeAndSlide(node4, 850);
-    fadeAndSlide(node5, 700);
-  });
+  // const unSubscribe = intersectingID.subscribe(id => (slides = slides));
 </script>
 
 <style type="text/scss">
+  @keyframes swerve {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(-20px);
+    }
+  }
   a {
     display: inline-block;
     transition: all 0.5s;
@@ -56,49 +58,60 @@
   .zero-opacity {
     opacity: 0;
   }
+
+  .test-img {
+    background-image: url("./images/the_times_devices.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    opacity: 0;
+    flex: 1;
+    width: 100%;
+    animation: swerve 0.5s ease-out forwards 1100ms;
+  }
+  .content-box {
+    flex: 1;
+    width: 70%;
+  }
+  .box {
+    flex: 1;
+  }
+  video {
+    width: 100%;
+    height: 50%;
+  }
+
+  .content-1 {
+    box-sizing: border-box;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    height: 100%;
+  }
 </style>
 
 <div>
-  <Slide type="fixed">
-    <h1 class="zero-opacity" bind:this={node1}>I build stuff that works.</h1>
-    <p class="zero-opacity" bind:this={node2}>
-      I build e2e applications using JavaScript, Currently engineering awesome
-      things @The Times
-    </p>
-    <div>
-      <a href="linkedin.com/in/ahmedshehab3">
-        <img
-          class="zero-opacity"
-          bind:this={node3}
-          src="./images/linkedin.png"
-          alt="" />
-      </a>
-      <a href="linkedin.com/in/ahmedshehab3">
-        <img
-          class="zero-opacity"
-          bind:this={node4}
-          src="./images/github-logo.png"
-          alt="" />
-      </a>
-      <a href="linkedin.com/in/ahmedshehab3">
-        <img
-          class="zero-opacity"
-          bind:this={node5}
-          src="./images/gmail.png"
-          alt="" />
-      </a>
-    </div>
-  </Slide>
-
-  <Slide type="slider" {observer}>
-    <Projects />
-  </Slide>
-
-  {#each slides as { active, id }}
-    <Slide {id} isInView={active} {observer} type="slider">
-      {#if active}
-        <h1>Projects</h1>
-      {/if}
-    </Slide>
-  {/each}
+  <Home />
 </div>
+
+<!-- {#each slides as { active, id, backgroundColor }} -->
+<!-- <Slide {id} isInView={active} {backgroundColor} {observer} type="slider">
+      {#if active}
+        <div class="content-box">
+
+        <div class="box">
+       
+        </div>
+        <div class="box white">
+          <div class="test-img" />
+          <video src="./videos/pmb.mp4" autoplay loop />
+          <h2>
+            When your building amazing products, you need more than just
+            standard engineering
+          </h2>
+        </div>
+      {/if}
+    </Slide> -->
+<!-- {/each} -->
