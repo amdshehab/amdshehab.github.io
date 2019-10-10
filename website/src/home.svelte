@@ -25,6 +25,15 @@
     }
   }
 
+  .parallax-container {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    perspective: 1px;
+    perspective-origin: 0 0;
+  }
+
   .flex-container {
     display: flex;
     flex-direction: column;
@@ -42,17 +51,22 @@
       }
     }
     &.standard {
-      background-color: aquamarine;
-      background-image: url("./images/the-times-logo.png");
-      background-repeat: no-repeat;
-      background-size: 40%;
-      background-position: bottom right;
       align-items: center;
       justify-content: center;
       @media (min-width: 1000px) {
         margin-left: 30vw;
         width: 70vw;
       }
+    }
+
+    &.first {
+      background-image: url("./images/the-times-logo.png");
+      background-repeat: no-repeat;
+      background-size: 30%;
+      background-position: bottom right;
+      height: 80vh;
+      background-color: cornflowerblue;
+      transform: translateZ(0px);
     }
   }
 
@@ -73,6 +87,7 @@
     object-fit: contain;
     width: 50%;
     height: 80%;
+    // transform: translateZ(-2px);
     &.icon {
       width: 50px;
       height: 50px;
@@ -87,6 +102,11 @@
 
   .zero-opacity {
     opacity: 0;
+  }
+
+  .test-child {
+    transform-origin: 0 0;
+    transform: translateZ(-2px) scale(3);
   }
 </style>
 
@@ -121,23 +141,13 @@
   </div>
 </div>
 
-<div class="flex-container standard">
-  <!-- <h2 class="item">
-    When your building amazing products, you need more than just standard
-    engineering
-  </h2> -->
-  <!-- <div class="image-container"> -->
-  <img src="./images/the-times-mobile.png" alt="" />
-  <!-- </div> -->
-  <!-- <div class="item content col-2">
-    <video src="./videos/pmb.mp4" autoplay loop />
-   
+<div class="parallax-container">
+  <div class="flex-container standard first">
+    <img src="./images/the-times-mobile.png" alt="" />
   </div>
-  <div class="item content col-3">
-    <h2 class="item">
-      When your building amazing products, you need more than just standard
-      engineering
-    </h2>
-    <video src="./videos/ninja-game-clip.mov" autoplay loop muted />
-  </div> -->
+  <h2 class="test-child">HELLO PARLALALALAALX</h2>
+
+  <div class="flex-container standard">
+    <img src="./images/the-times-mobile.png" alt="" />
+  </div>
 </div>
