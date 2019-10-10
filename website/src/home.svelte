@@ -25,15 +25,40 @@
     }
   }
 
-  .container {
+  .flex-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    width: 100vw;
     height: 100vh;
+    box-sizing: border-box;
+    padding: 50px;
+    flex-direction: column;
+    &.fixed {
+      align-items: flex-start;
+      justify-content: space-evenly;
+      @media (min-width: 1000px) {
+        position: fixed;
+        width: 30vw;
+      }
+    }
+    &.standard {
+      background-color: aquamarine;
+      background-image: url("./images/the-times-logo.png");
+      background-repeat: no-repeat;
+      background-size: 40%;
+      background-position: bottom right;
+      align-items: center;
+      justify-content: center;
+      @media (min-width: 1000px) {
+        margin-left: 30vw;
+        width: 70vw;
+      }
+    }
   }
+
   .item {
     flex: 1;
   }
-
   a {
     display: inline-block;
     transition: all 0.5s;
@@ -45,9 +70,14 @@
   }
 
   img {
-    width: 50px;
-    height: 50px;
-    margin: 10px;
+    object-fit: contain;
+    width: 50%;
+    height: 80%;
+    &.icon {
+      width: 50px;
+      height: 50px;
+      margin: 10px;
+    }
   }
 
   p {
@@ -58,68 +88,56 @@
   .zero-opacity {
     opacity: 0;
   }
-
-  .content {
-    box-sizing: border-box;
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    height: 100%;
-  }
-  .test-img {
-    background-image: url("./images/the_times_devices.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: bottom;
-    opacity: 0;
-    flex: 1;
-    width: 100%;
-    animation: swerve 0.5s ease-out forwards 1100ms;
-  }
 </style>
 
-<div class="container">
-  <div class="item content">
-    <h1 class="zero-opacity" bind:this={node1}>I build stuff that works.</h1>
-    <p class="zero-opacity" bind:this={node2}>
-      I build e2e applications using JavaScript, Currently engineering awesome
-      things @The Times
-    </p>
-    <div>
-      <a href="linkedin.com/in/ahmedshehab3">
-        <img
-          class="zero-opacity"
-          bind:this={node3}
-          src="./images/linkedin.png"
-          alt="" />
-      </a>
-      <a href="linkedin.com/in/ahmedshehab3">
-        <img
-          class="zero-opacity"
-          bind:this={node4}
-          src="./images/github-logo.png"
-          alt="" />
-      </a>
-      <a href="linkedin.com/in/ahmedshehab3">
-        <img
-          class="zero-opacity"
-          bind:this={node5}
-          src="./images/gmail.png"
-          alt="" />
-      </a>
-    </div>
+<div class="flex-container fixed">
+  <h1 class="zero-opacity" bind:this={node1}>I build amazing software</h1>
+  <p class="zero-opacity" bind:this={node2}>
+    I build e2e applications using JavaScript, Currently engineering awesome
+    things @The Times
+  </p>
+  <div>
+    <a href="linkedin.com/in/ahmedshehab3">
+      <img
+        class="zero-opacity icon"
+        bind:this={node3}
+        src="./images/linkedin.png"
+        alt="" />
+    </a>
+    <a href="linkedin.com/in/ahmedshehab3">
+      <img
+        class="zero-opacity icon"
+        bind:this={node4}
+        src="./images/github-logo.png"
+        alt="" />
+    </a>
+    <a href="linkedin.com/in/ahmedshehab3">
+      <img
+        class="zero-opacity icon"
+        bind:this={node5}
+        src="./images/gmail.png"
+        alt="" />
+    </a>
   </div>
+</div>
 
-  <div class="item content">
-    <div class="test-img" />
-    <h2>
+<div class="flex-container standard">
+  <!-- <h2 class="item">
+    When your building amazing products, you need more than just standard
+    engineering
+  </h2> -->
+  <!-- <div class="image-container"> -->
+  <img src="./images/the-times-mobile.png" alt="" />
+  <!-- </div> -->
+  <!-- <div class="item content col-2">
+    <video src="./videos/pmb.mp4" autoplay loop />
+   
+  </div>
+  <div class="item content col-3">
+    <h2 class="item">
       When your building amazing products, you need more than just standard
       engineering
     </h2>
-  </div>
-  <div class="item">
-    <slot name="col-3" />
-  </div>
+    <video src="./videos/ninja-game-clip.mov" autoplay loop muted />
+  </div> -->
 </div>
