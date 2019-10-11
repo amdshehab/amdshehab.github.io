@@ -27,18 +27,22 @@
 
   .parallax-container {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: scroll;
     perspective: 1px;
     perspective-origin: 0 0;
+    @media (min-width: 1000px) {
+      margin-left: 30vw;
+      width: 70vw;
+    }
   }
 
   .flex-container {
     display: flex;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
     padding: 50px;
     flex-direction: column;
@@ -50,23 +54,19 @@
         width: 30vw;
       }
     }
-    &.standard {
+    &.parallax-group {
+      transform-style: preserve-3d;
+    }
+    &.first-scroll-group {
       align-items: center;
       justify-content: center;
-      @media (min-width: 1000px) {
-        margin-left: 30vw;
-        width: 70vw;
-      }
-    }
-
-    &.first {
       background-image: url("./images/the-times-logo.png");
       background-repeat: no-repeat;
       background-size: 30%;
       background-position: bottom right;
       height: 80vh;
-      background-color: cornflowerblue;
-      transform: translateZ(0px);
+      // background-color: cornflowerblue;
+      transform-origin: 0 0;
     }
   }
 
@@ -87,7 +87,6 @@
     object-fit: contain;
     width: 50%;
     height: 80%;
-    // transform: translateZ(-2px);
     &.icon {
       width: 50px;
       height: 50px;
@@ -104,9 +103,8 @@
     opacity: 0;
   }
 
-  .test-child {
-    transform-origin: 0 0;
-    transform: translateZ(-2px) scale(3);
+  .parallax-fast {
+    transform: translate3d(-28%, -20%, 0.5px) scale(0.8) skew(-6deg, -2deg);
   }
 </style>
 
@@ -142,11 +140,13 @@
 </div>
 
 <div class="parallax-container">
-  <div class="flex-container standard first">
+  <div class="flex-container first-scroll-group parallax-group">
+    <img class="parallax-fast" src="./images/the-times-mobile.png" alt="" />
+    <!-- <h2 class="test-fast">HELLO FOO</h2> -->
+  </div>
+  <div class="flex-container standard">
     <img src="./images/the-times-mobile.png" alt="" />
   </div>
-  <h2 class="test-child">HELLO PARLALALALAALX</h2>
-
   <div class="flex-container standard">
     <img src="./images/the-times-mobile.png" alt="" />
   </div>
