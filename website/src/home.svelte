@@ -30,7 +30,7 @@
     height: 100vh;
     overflow-x: hidden;
     overflow-y: scroll;
-    perspective: 1px;
+    perspective: 2px;
     perspective-origin: 0 0;
     @media (min-width: 1000px) {
       margin-left: 30vw;
@@ -65,8 +65,28 @@
       background-size: 30%;
       background-position: bottom right;
       height: 80vh;
-      // background-color: cornflowerblue;
+      background-color: cornflowerblue;
+      transform: translateZ(-3px) scale(2.5);
       transform-origin: 0 0;
+    }
+    &.second-scroll-group {
+      height: 100vh;
+      background-color: red;
+      transform: translateZ(-1px) scale(1.5);
+      transform-origin: 0 -80vh;
+      margin-bottom: 40vh;
+    }
+    &.third-scroll-group {
+      height: 100vh;
+      background-color: yellow;
+      transform: translateZ(0);
+      transform-origin: 0 -160vh;
+    }
+    &.fourth-scroll-group {
+      height: 100vh;
+      background-color: pink;
+      transform: translateZ(0.8px) scale(0.6);
+      transform-origin: 0 -100vh;
     }
   }
 
@@ -101,10 +121,6 @@
 
   .zero-opacity {
     opacity: 0;
-  }
-
-  .parallax-fast {
-    transform: translate3d(-28%, -20%, 0.5px) scale(0.8) skew(-6deg, -2deg);
   }
 </style>
 
@@ -141,13 +157,15 @@
 
 <div class="parallax-container">
   <div class="flex-container first-scroll-group parallax-group">
-    <img class="parallax-fast" src="./images/the-times-mobile.png" alt="" />
-    <!-- <h2 class="test-fast">HELLO FOO</h2> -->
-  </div>
-  <div class="flex-container standard">
     <img src="./images/the-times-mobile.png" alt="" />
   </div>
-  <div class="flex-container standard">
+  <div class="flex-container standard second-scroll-group parallax-group">
+    <img src="./images/the-times-mobile.png" alt="" />
+  </div>
+  <div class="flex-container standard third-scroll-group parallax-group">
+    <img src="./images/the-times-mobile.png" alt="" />
+  </div>
+  <div class="flex-container standard fourth-scroll-group parallax-group">
     <img src="./images/the-times-mobile.png" alt="" />
   </div>
 </div>
