@@ -127,8 +127,8 @@
 <div class="flex-container fixed">
   <h1 class="zero-opacity" bind:this={node1}>I build amazing software</h1>
   <p class="zero-opacity" bind:this={node2}>
-    I build e2e applications using JavaScript, Currently engineering awesome
-    things @The Times
+    Currently engineering awesome things @Babylon Health, previously engineering
+    @The Times
   </p>
   <div>
     <a href="linkedin.com/in/ahmedshehab3">
@@ -162,10 +162,10 @@
   <div class="flex-container standard second-scroll-group parallax-group">
     <img src="./images/the-times-mobile.png" alt="" />
   </div>
-  <div class="flex-container standard third-scroll-group parallax-group">
+  <!-- <div class="flex-container standard third-scroll-group parallax-group">
     <img src="./images/the-times-mobile.png" alt="" />
   </div>
   <div class="flex-container standard fourth-scroll-group parallax-group">
     <img src="./images/the-times-mobile.png" alt="" />
-  </div>
+  </div> -->
 </div>
