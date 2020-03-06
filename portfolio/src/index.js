@@ -1,83 +1,110 @@
 import {
   SphereGeometry,
   Mesh,
-  PointLight,
   MeshLambertMaterial,
-  PlaneGeometry,
-  DoubleSide,
-  MeshPhongMaterial,
-  MeshBasicMaterial
+  BoxGeometry,
+  TextGeometry
 } from "three";
-import { setup } from "./setup";
+import { setupRenderer, setupCannon } from "./setup";
 import "./index.css";
-import { Box, World, NaiveBroadphase, Body, Vec3, Plane } from "cannon";
+import {
+  Box,
+  Body,
+  Vec3,
+  Sphere,
+  Material,
+  Plane,
+  ContactMaterial
+} from "cannon";
 
-const { scene, camera, renderer } = setup();
+const mat2 = new Material();
 
-const geometry = new SphereGeometry(1, 10, 10);
-const material = new MeshLambertMaterial({ color: 0xff0000 });
-const sphere = new Mesh(geometry, material);
-scene.add(sphere);
+const objectStack = [];
+const { scene, camera, renderer } = setupRenderer();
+const world = setupCannon();
 
-const planeGeometry = new PlaneGeometry(5, 20, 32);
-const planeMaterial = new MeshBasicMaterial({
-  color: 0xffff00,
-  side: DoubleSide
-});
-const plane = new Mesh(planeGeometry, planeMaterial);
-plane.position.z = -10;
-scene.add(plane);
+generateFloor(-8);
+generateSphere(5);
 
-const light = new PointLight(0xff0000, 1, 500);
-light.position.set(10, 30, 25);
-scene.add(light);
+// setInterval(() => generateSphere(-4), 2000);
 
-camera.position.z = 5;
-renderer.setClearColor(0xffffff);
+function generateSphere(z) {
+  const geometry = new SphereGeometry(1, 10, 10);
+  const material = new MeshLambertMaterial({ color: 0xff0000 });
+  const sphere = new Mesh(geometry, material);
+  sphere.geometry.computeVertexNormals();
+  sphere.position.z = z;
 
-let world,
-  body,
-  shape,
-  timeStep = 1 / 60,
-  cannonPlane,
-  cannonShape;
-
-function initCannon() {
-  world = new World();
-  world.gravity.set(0, 0, -9.82);
-  world.broadphase = new NaiveBroadphase();
-  world.solver.iterations = 10;
-
-  shape = new Box(new Vec3(1, 1, 1));
-
-  body = new Body({
-    mass: 1
+  const body = new Body({
+    mass: 1,
+    type: Body.DYNAMIC,
+    material: mat2
   });
 
-  body.addShape(shape);
-  body.angularVelocity.set(10, 10, 10);
-  body.angularDamping = 0.5;
+  body.position.z = z;
 
-  cannonPlane = new Box(new Vec3(0, 0, -10));
-  cannonShape = new Body({
-    mass: 0
-  });
+  body.addShape(new Sphere(1));
+  // body.linearDamping = 0.01;
+  // body.velocity.set(0, 0, 5);
+  // body.applyImpulse(new Vec3(0, 0, 10), new Vec3(0, 0, 10));
 
-  cannonShape.addShape(cannonPlane);
-
+  // body.collisionResponse = true;
+  // body.angularVelocity.set(10, 10, 30);
+  // body.angularVelocity.set(0, 0, 0);
+  // body.linearDamping = -0.5;
+  // body.angularDamping = -0.1;
+  scene.add(sphere);
   world.addBody(body);
-  world.addBody(cannonShape);
+
+  objectStack.push({
+    sphere,
+    body
+  });
 }
 
-initCannon();
+function generateFloor(z) {
+  const geometry = new BoxGeometry(30, 30, 1);
+  const material = new MeshLambertMaterial({
+    color: 0x808080
+  });
+  const box = new Mesh(geometry, material);
+  box.position.z = z;
+
+  // const body = new Body({
+  //   mass: 1,
+  //   type: Body.KINEMATIC
+  // });
+  // body.position.z = z;
+  // body.addShape(new Box(new Vec3(15, 15, 1)));
+
+  // ground plane
+  const groundMaterial = new Material();
+  const groundShape = new Plane();
+  const groundBody = new Body({
+    mass: 0,
+    material: groundMaterial
+  });
+
+  const mat1_ground = new ContactMaterial(groundMaterial, mat2, {
+    friction: 0.0,
+    restitution: 0.9
+  });
+
+  groundBody.position.z = z;
+  groundBody.addShape(groundShape);
+  scene.add(box);
+  world.addBody(groundBody);
+  world.addContactMaterial(mat1_ground);
+}
 
 function updatePhysics() {
-  world.step(timeStep);
-  sphere.position.copy(body.position);
-  sphere.quaternion.copy(body.quaternion);
+  world.step(1 / 60);
+  for (let object of objectStack) {
+    const { sphere, body } = object;
 
-  plane.position.copy(cannonShape.position);
-  plane.quaternion.copy(cannonShape.quaternion);
+    sphere.position.copy(body.position);
+    sphere.quaternion.copy(body.quaternion);
+  }
 }
 
 function animate() {
