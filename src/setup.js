@@ -8,8 +8,6 @@ import {
 import { World, NaiveBroadphase, ContactMaterial, Material } from "cannon";
 
 export const setupRenderer = function() {
-  // console.log(window.innerWidth, window.innerHeight);
-
   const scene = new Scene();
   const camera = new PerspectiveCamera(
     75,
@@ -46,6 +44,5 @@ export const setupCannon = () => {
   world.gravity.set(0, 0, -9.82);
   world.broadphase = new NaiveBroadphase();
   world.solver.iterations = 10;
-
   return world;
 };

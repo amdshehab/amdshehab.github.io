@@ -13,7 +13,6 @@ import {
   FontLoader
 } from "three";
 
-// import * as helvetikerFont from "three/examples/fonts/helvetiker_bold.typeface.json";
 import { setupRenderer, setupCannon } from "./setup";
 import "./index.css";
 import {
@@ -25,6 +24,8 @@ import {
   ContactMaterial,
   Vec3
 } from "cannon";
+
+import { square } from "./shapes";
 
 const mat2 = new Material();
 
@@ -39,6 +40,7 @@ const windowHalf = new Vector2(window.innerWidth / 2, window.innerHeight / 2);
 
 let fps, fpsInterval, startTime, now, then, elapsed;
 
+let clicked = false;
 function generateRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -101,6 +103,17 @@ function updatePhysics() {
       world.remove(body);
     }
 
+    if (clicked) {
+      // body.position.set(2, 2, 2);
+      // body.interpolatedPosition.set(2, 2, 2);
+      // if (body.position.z !== 2) {
+      // }
+      if (i <= square.length - 1) {
+        const [x, y] = square[i];
+        animateToRequiredPos(body, { x, y, z: -2 });
+      }
+    }
+
     sphere.position.copy(body.position);
     sphere.quaternion.copy(body.quaternion);
   }
@@ -129,30 +142,71 @@ function animate(timeStamp) {
     then = now - (elapsed % fpsInterval);
 
     // left to right
-    generateSphere(
-      -10,
-      generateRandomNumber(-20, 10),
-      generateRandomNumber(-10, 10),
-      18,
-      generateRandomNumber(-10, 10),
-      1
-    );
+    if (!clicked) {
+      generateSphere(
+        -10,
+        generateRandomNumber(-20, 10),
+        generateRandomNumber(-10, 10),
+        18,
+        generateRandomNumber(-10, 10),
+        1
+      );
 
-    // right to left
-    generateSphere(
-      -10,
-      generateRandomNumber(-10, 20),
-      generateRandomNumber(-10, 10),
-      -18,
-      generateRandomNumber(-10, 10),
-      1
-    );
+      // right to left
+      generateSphere(
+        -10,
+        generateRandomNumber(-10, 20),
+        generateRandomNumber(-10, 10),
+        -18,
+        generateRandomNumber(-10, 10),
+        1
+      );
+    }
   }
 
   updatePhysics();
   renderer.render(scene, camera);
 }
 
+function animateToRequiredPos(body, { x, y, z }) {
+  if (body.position.x !== x) {
+    body.sleep();
+    if (body.position.x > x) {
+      body.position.x -= 0.3;
+    }
+    if (body.position.x < x) {
+      body.position.x += 0.3;
+    }
+  }
+
+  if (body.position.y !== y) {
+    body.sleep();
+    if (body.position.y > y) {
+      body.position.y -= 0.3;
+    }
+    if (body.position.y < y) {
+      body.position.y += 0.3;
+    }
+  }
+
+  // if (body.position.z !== z) {
+  //   body.sleep();
+  //   if (body.position.z > z) {
+  //     body.position.z -= 0.5;
+  //   }
+  //   if (body.position.z < z) {
+  //     body.position.z += 0.5;
+  //   }
+  // }
+}
+
 window.addEventListener("mousemove", onMouseMove, false);
+
+const elem = document.getElementById("change-drawing");
+elem.addEventListener("click", () => {
+  console.log("being clicked");
+  clicked = !clicked;
+  world.gravity.set(0, 0, clicked ? 0 : -9.82);
+});
 
 startAnimation(15);

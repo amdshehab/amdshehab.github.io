@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -21,6 +22,14 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader"
+          }
+        ]
       }
     ]
   },
@@ -30,7 +39,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "Development"
     }),
-    new CopyWebpackPlugin([{ from: "src/assets", to: "assets" }])
+    new CopyWebpackPlugin([{ from: "src/assets", to: "assets" }]),
+    new HtmlWebPackPlugin({
+      template: "./index.html",
+      filename: "./index.html"
+    })
   ],
   output: {
     filename: "[name].bundle.js",
