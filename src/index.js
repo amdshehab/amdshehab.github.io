@@ -27,7 +27,7 @@ import {
 
 import { square } from "./shapes";
 
-const mat2 = new Material();
+import { generateBox } from "./box";
 
 const objectStack = [];
 const { scene, camera, renderer } = setupRenderer();
@@ -41,6 +41,22 @@ const windowHalf = new Vector2(window.innerWidth / 2, window.innerHeight / 2);
 let fps, fpsInterval, startTime, now, then, elapsed;
 
 let clicked = false;
+
+// const contactMaterial = new Material();
+
+// const groundMaterial = generateBox(-10, scene, world);
+
+// const boxContactMaterial = new ContactMaterial(
+//   groundMaterial,
+//   contactMaterial,
+//   {
+//     friction: 0.0,
+//     restitution: 0.9
+//   }
+// );
+
+// world.addContactMaterial(boxContactMaterial);
+
 function generateRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -61,8 +77,8 @@ function generateSphere(z, x, y, vx, vy, vz) {
 
   const body = new Body({
     mass: 1,
-    type: Body.DYNAMIC,
-    material: mat2
+    type: Body.DYNAMIC
+    // material: contactMaterial
   });
 
   body.position.z = z;
@@ -110,7 +126,7 @@ function updatePhysics() {
       // }
       if (i <= square.length - 1) {
         const [x, y] = square[i];
-        animateToRequiredPos(body, { x, y, z: -2 });
+        animateToRequiredPos(body, { x, y, z: -5 });
       }
     }
 
@@ -142,7 +158,7 @@ function animate(timeStamp) {
     then = now - (elapsed % fpsInterval);
 
     // left to right
-    if (!clicked) {
+    if (!clicked && objectStack.length < 30) {
       generateSphere(
         -10,
         generateRandomNumber(-20, 10),
@@ -172,32 +188,32 @@ function animateToRequiredPos(body, { x, y, z }) {
   if (body.position.x !== x) {
     body.sleep();
     if (body.position.x > x) {
-      body.position.x -= 0.3;
+      body.position.x -= 0.1;
     }
     if (body.position.x < x) {
-      body.position.x += 0.3;
+      body.position.x += 0.1;
     }
   }
 
   if (body.position.y !== y) {
     body.sleep();
     if (body.position.y > y) {
-      body.position.y -= 0.3;
+      body.position.y -= 0.1;
     }
     if (body.position.y < y) {
-      body.position.y += 0.3;
+      body.position.y += 0.1;
     }
   }
 
-  // if (body.position.z !== z) {
-  //   body.sleep();
-  //   if (body.position.z > z) {
-  //     body.position.z -= 0.5;
-  //   }
-  //   if (body.position.z < z) {
-  //     body.position.z += 0.5;
-  //   }
-  // }
+  if (body.position.z !== z) {
+    body.sleep();
+    if (body.position.z > z) {
+      body.position.z -= 0.1;
+    }
+    if (body.position.z < z) {
+      body.position.z += 0.1;
+    }
+  }
 }
 
 window.addEventListener("mousemove", onMouseMove, false);
@@ -206,7 +222,7 @@ const elem = document.getElementById("change-drawing");
 elem.addEventListener("click", () => {
   console.log("being clicked");
   clicked = !clicked;
-  world.gravity.set(0, 0, clicked ? 0 : -9.82);
+  // world.gravity.set(0, 0, clicked ? 0 : -9.82);
 });
 
 startAnimation(15);
