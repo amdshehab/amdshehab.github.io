@@ -17,7 +17,8 @@ export const setupRenderer = function() {
   );
   const renderer = new WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  const container = document.getElementById("canvasContainer");
+  container.appendChild(renderer.domElement);
 
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -41,7 +42,7 @@ export const setupRenderer = function() {
 
 export const setupCannon = () => {
   const world = new World();
-  world.gravity.set(0, 0, -9.82);
+  world.gravity.set(0, 0, 0);
   world.broadphase = new NaiveBroadphase();
   world.solver.iterations = 10;
   return world;
