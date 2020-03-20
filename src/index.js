@@ -1,4 +1,4 @@
-import { SphereGeometry, Frustum, Matrix4, BoxGeometry } from "three";
+import { SphereGeometry, Frustum, Matrix4, BoxGeometry, log } from "three";
 import { TimelineMax } from "gsap";
 
 import { setupRenderer, setupCannon } from "./setup";
@@ -18,12 +18,12 @@ let shapeBuilt = false;
 const shapes = {
   rectangle: {
     visible: false,
-    geometry: new BoxGeometry(5, 5, 5, 5, 5, 5),
+    geometry: new BoxGeometry(5, 5, 5, 5, 8, 5),
     built: false
   },
   sphere: {
     visible: false,
-    geometry: new SphereGeometry(2, 15, 15),
+    geometry: new SphereGeometry(3, 15, 15),
     built: false
   }
 };
@@ -49,7 +49,6 @@ function updatePhysics() {
   for (let i = 0; i < objectStack.length; i++) {
     const { sphere, body } = objectStack[i];
 
-    // clean up memory
     if (!frustum.intersectsObject(sphere)) {
       objectStack.splice(i, 1);
       sphere.geometry.dispose();
@@ -58,31 +57,37 @@ function updatePhysics() {
       world.remove(body);
     }
 
-    if (shapes.rectangle.visible === true && shapes.rectangle.built === false) {
-      animateShape(shapes.rectangle, body, i);
-    }
-
-    if (shapes.sphere.visible === true && shapes.sphere.built === false) {
-      animateShape(shapes.sphere, body, i);
-    }
-
     sphere.position.copy(body.position);
     sphere.quaternion.copy(body.quaternion);
   }
 }
 
-function animateShape(shape, cannonBody, i) {
-  const geometryVertices = shape.geometry.vertices;
-  console.log("whats me ->", geometryVertices);
-  if (i < geometryVertices.length - 1) {
-    const tl = new TimelineMax();
-    const { x, y, z } = geometryVertices[i];
+function animateShape(shape) {
+  for (let i = 0; i < objectStack.length; i++) {
+    const { body: cannonBody } = objectStack[i];
 
-    cannonBody.sleep();
-    tl.to(cannonBody.position, { x, y, z });
-  } else {
-    shape.built = true;
-    shapeBuilt = true;
+    const geometryVertices = shape.geometry.vertices;
+    if (i < geometryVertices.length - 1) {
+      if (objectStack.length < geometryVertices.length) {
+        generateSphere(
+          -10,
+          generateRandomNumber(0, 10),
+          generateRandomNumber(-10, 10),
+          -10,
+          generateRandomNumber(-10, 10),
+          0,
+          scene,
+          world,
+          objectStack
+        );
+      }
+      const tl = new TimelineMax();
+      const { x, y, z } = geometryVertices[i];
+      cannonBody.sleep();
+      tl.to(cannonBody.position, { x, y, z });
+    } else {
+      shapeBuilt = true;
+    }
   }
 }
 
@@ -107,21 +112,20 @@ function animate(timeStamp) {
         -10,
         generateRandomNumber(0, 10),
         generateRandomNumber(-10, 10),
-        -10,
-        generateRandomNumber(-10, 10),
-        0,
+        -5,
+        generateRandomNumber(-5, 5),
+        2,
         scene,
         world,
         objectStack
       );
 
-      // right to left
       generateSphere(
         -10,
         generateRandomNumber(-10, 20),
         generateRandomNumber(-10, 10),
-        10,
-        generateRandomNumber(-10, 10),
+        2,
+        generateRandomNumber(-5, 5),
         1,
         scene,
         world,
@@ -136,14 +140,10 @@ function animate(timeStamp) {
 
 setupObserver(section => {
   if (section === "section-2") {
-    shapes.rectangle.visible = true;
-    shapes.sphere.visible = false;
-    shapes.sphere.built = false;
+    animateShape(shapes.rectangle);
   } else if (section === "section-3") {
-    shapes.sphere.visible = true;
-    shapes.rectangle.visible = false;
-    shapes.rectangle.built = false;
+    animateShape(shapes.sphere);
   }
 });
 
-startAnimation(20);
+startAnimation(30);

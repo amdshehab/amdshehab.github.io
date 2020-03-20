@@ -1,9 +1,10 @@
 export const setupObserver = cb => {
   const observer = new IntersectionObserver(
     intersectionList => {
-      // console.log("something special here", intersectionList);
+      console.log("im intersecting", intersectionList);
+
       for (let intersection of intersectionList) {
-        if (intersection.intersectionRatio === 1) {
+        if (intersection.isIntersecting) {
           intersection.target.style.visibility = "visible";
           console.log(intersection.target.id);
           cb(intersection.target.id);
@@ -13,11 +14,12 @@ export const setupObserver = cb => {
     {
       root: null,
       rootMargin: "0px",
-      threshold: 1
+      threshold: 0.7
     }
   );
 
   const container = document.getElementById("content");
+  console.log(container.children);
 
   for (let childElem of container.children) {
     observer.observe(childElem);
