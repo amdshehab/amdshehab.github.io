@@ -1,11 +1,26 @@
-import { SphereGeometry, MeshLambertMaterial, Mesh } from "three";
+import {
+  SphereGeometry,
+  SphereBufferGeometry,
+  MeshLambertMaterial,
+  MeshPhongMaterial,
+  Mesh
+} from "three";
 import { Body, Sphere } from "cannon";
 
 export function generateSphere(z, x, y, vx, vy, vz, scene, world, objectStack) {
-  const geometry = new SphereGeometry(0.05, 0.5, 0.5);
-  const material = new MeshLambertMaterial({ color: 0xff0000 });
-  const sphere = new Mesh(geometry, material);
+  const sphereRadius = 0.03;
+  const sphereWidthDivisions = 32;
+  const sphereHeightDivisions = 16;
+  const sphereMat = new MeshPhongMaterial({ color: "#CA8" });
+  const sphereGeo = new SphereBufferGeometry(
+    sphereRadius,
+    sphereWidthDivisions,
+    sphereHeightDivisions
+  );
+
+  const sphere = new Mesh(sphereGeo, sphereMat);
   sphere.geometry.computeVertexNormals();
+  sphere.geometry.computeFaceNormals();
   sphere.position.z = z;
   sphere.position.x = x;
   sphere.position.y = y;

@@ -3,6 +3,57 @@ body {
   height: 100vh;
   width: 100vw;
   overflow-y: hidden;
+  /* background-image: linear-gradient(
+    45deg,
+    #ff9a9e 0%,
+    #fad0c4 99%,
+    #fad0c4 100%
+  ); */
+  /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
+  /* background-image: linear-gradient(to top, #09203f 0%, #537895 100%); */
+  /* background-image: linear-gradient(60deg, #29323c 0%, #485563 100%); */
+  background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+  /* background-image: linear-gradient(
+    to right,
+    #ff8177 0%,
+    #ff867a 0%,
+    #ff8c7f 21%,
+    #f99185 52%,
+    #cf556c 78%,
+    #b12a5b 100%
+  ); */
+  /* background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); */
+  /* background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%); */
+  /* background-image: linear-gradient(to top, #5ee7df 0%, #b490ca 100%); */
+  /* background-image: linear-gradient(to top, #9890e3 0%, #b1f4cf 100%); */
+  /* background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%); */
+  /* background: linear-gradient(90deg, #00c9ff 0%, #92fe9d 100%); */
+  /* background: linear-gradient(90deg, #1CB5E0 0%, #000851 100%); */
+  /* background: linear-gradient(90deg, #fcff9e 0%, #c67700 100%); */
+  /* background: linear-gradient(90deg, #d53369 0%, #daae51 100%); */
+  /* background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%); */
+  /* background: #11e8bb;  */
+  /* Old browsers */
+  /* background: -moz-linear-gradient(
+    top,
+    #11e8bb 0%,
+    #8200c9 100%
+  );  */
+  /* FF3.6-15 */
+  /* background: -webkit-linear-gradient(
+    top,
+    #11e8bb 0%,
+    #8200c9 100%
+  ); */
+  /* Chrome10-25,Safari5.1-6 */
+  /* background: linear-gradient(
+    to bottom,
+    #11e8bb 0%,
+    #8200c9 100%
+  );  */
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  /* filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#11e8bb', endColorstr='#8200c9',GradientType=0 ); 
+  filter: drop-shadow(16px 16px 20px red) invert(75%); */
 }
 
 .canvasContainer {
@@ -37,14 +88,19 @@ body {
   margin: 0px 100px;
   height: 100vh;
   width: fit-content;
-  background-color: white;
+  /* background-color: white; */
   scroll-snap-align: start;
 }
 
 .section > h1 {
+  /* color: blanchedalmond; */
   margin: 0;
+  /* background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
 }
 
 .content > div {
-  visibility: hidden;
+  /* visibility: hidden; */
+  opacity: 0;
 }

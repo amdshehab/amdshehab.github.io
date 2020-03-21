@@ -3,7 +3,7 @@ import {
   PerspectiveCamera,
   WebGLRenderer,
   PointLight,
-  log
+  Color
 } from "three";
 import { World, NaiveBroadphase, ContactMaterial, Material } from "cannon";
 
@@ -15,7 +15,10 @@ export const setupRenderer = function() {
     0.1,
     40
   );
-  const renderer = new WebGLRenderer();
+  const renderer = new WebGLRenderer({
+    antialias: true,
+    alpha: true
+  });
   renderer.setSize(window.innerWidth, window.innerHeight);
   const container = document.getElementById("canvasContainer");
   container.appendChild(renderer.domElement);
@@ -26,10 +29,12 @@ export const setupRenderer = function() {
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
   camera.position.z = 5;
-  renderer.setClearColor(0xffffff);
+  renderer.setClearColor(0x000000, 0);
 
-  const light = new PointLight(0xff0000, 1, 500);
-  light.position.set(10, 30, 25);
+  const light = new PointLight(0xfffff, 1, 1000);
+  light.position.set(10, 20, 25);
+  light.castShadow = true;
+  light.shadow.radius = 20;
   scene.add(light);
 
   window.addEventListener("resize", onWindowResize);

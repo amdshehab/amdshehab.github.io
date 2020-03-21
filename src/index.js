@@ -1,4 +1,13 @@
-import { SphereGeometry, Frustum, Matrix4, BoxGeometry, log } from "three";
+import {
+  SphereGeometry,
+  Frustum,
+  Matrix4,
+  BoxGeometry,
+  LineBasicMaterial,
+  BufferGeometry,
+  Line
+} from "three";
+import { Vec3 } from "cannon";
 import { TimelineMax } from "gsap";
 
 import { setupRenderer, setupCannon } from "./setup";
@@ -14,17 +23,16 @@ const cameraViewProjectionMatrix = new Matrix4();
 let fpsInterval, startTime, now, then, elapsed;
 
 let shapeBuilt = false;
+let sphereGeneration = false;
 
 const shapes = {
   rectangle: {
     visible: false,
-    geometry: new BoxGeometry(5, 5, 5, 5, 8, 5),
-    built: false
+    geometry: new BoxGeometry(5, 5, 5, 5, 8, 5)
   },
   sphere: {
     visible: false,
-    geometry: new SphereGeometry(3, 15, 15),
-    built: false
+    geometry: new SphereGeometry(3, 15, 15)
   }
 };
 
@@ -63,11 +71,12 @@ function updatePhysics() {
 }
 
 function animateShape(shape) {
+  const geometryVertices = shape.geometry.vertices;
+
   for (let i = 0; i < objectStack.length; i++) {
     const { body: cannonBody } = objectStack[i];
 
-    const geometryVertices = shape.geometry.vertices;
-    if (i < geometryVertices.length - 1) {
+    if (i <= geometryVertices.length - 1) {
       if (objectStack.length < geometryVertices.length) {
         generateSphere(
           -10,
@@ -85,10 +94,10 @@ function animateShape(shape) {
       const { x, y, z } = geometryVertices[i];
       cannonBody.sleep();
       tl.to(cannonBody.position, { x, y, z });
-    } else {
-      shapeBuilt = true;
     }
   }
+
+  shapeBuilt = true;
 }
 
 function startAnimation(fps) {
@@ -107,14 +116,14 @@ function animate(timeStamp) {
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
 
-    if (objectStack.length < 400 && !shapeBuilt) {
+    if (objectStack.length < 200 && sphereGeneration) {
       generateSphere(
         -10,
         generateRandomNumber(0, 10),
         generateRandomNumber(-10, 10),
         -5,
         generateRandomNumber(-5, 5),
-        2,
+        7,
         scene,
         world,
         objectStack
@@ -126,7 +135,7 @@ function animate(timeStamp) {
         generateRandomNumber(-10, 10),
         2,
         generateRandomNumber(-5, 5),
-        1,
+        7,
         scene,
         world,
         objectStack
@@ -139,11 +148,25 @@ function animate(timeStamp) {
 }
 
 setupObserver(section => {
-  if (section === "section-2") {
+  if (section === "section-1") {
+    for (let i = 0; i < objectStack.length; i++) {
+      const { body: cannonBody } = objectStack[i];
+      cannonBody.wakeUp();
+      // cannonBody.applyImpulse(new Vec3(2, 2, 1));
+      cannonBody.velocity.set(
+        generateRandomNumber(-5, 5),
+        generateRandomNumber(-5, 5),
+        0
+      );
+    }
+    sphereGeneration = true;
+  } else if (section === "section-2") {
+    sphereGeneration = false;
     animateShape(shapes.rectangle);
   } else if (section === "section-3") {
+    sphereGeneration = false;
     animateShape(shapes.sphere);
   }
 });
 
-startAnimation(30);
+startAnimation(50);

@@ -1,8 +1,6 @@
 export const setupObserver = cb => {
   const observer = new IntersectionObserver(
     intersectionList => {
-      console.log("im intersecting", intersectionList);
-
       for (let intersection of intersectionList) {
         if (intersection.isIntersecting) {
           intersection.target.style.visibility = "visible";
