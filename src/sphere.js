@@ -37,6 +37,8 @@ export function generateSphere(z, x, y, vx, vy, vz, scene, world, objectStack) {
   body.addShape(new Sphere(0.025));
   body.velocity.set(vx, vy, vz);
 
+  // console.log("what ->", body.shapes);
+
   scene.add(sphere);
   world.addBody(body);
 

@@ -5,7 +5,7 @@ export const setupObserver = cb => {
         if (intersection.isIntersecting) {
           intersection.target.style.visibility = "visible";
           console.log(intersection.target.id);
-          cb(intersection.target.id);
+          cb(intersection.target);
         }
       }
     },

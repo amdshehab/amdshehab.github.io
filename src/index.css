@@ -95,12 +95,13 @@ body {
 .section > h1 {
   /* color: blanchedalmond; */
   margin: 0;
+  opacity: 0;
   /* background: -webkit-linear-gradient(#eee, #333);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; */
 }
 
-.content > div {
-  /* visibility: hidden; */
-  opacity: 0;
-}
+/* .content > div { */
+/* visibility: hidden; */
+/* opacity: 0; */
+/* } */

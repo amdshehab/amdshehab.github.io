@@ -1,14 +1,6 @@
-import {
-  SphereGeometry,
-  Frustum,
-  Matrix4,
-  BoxGeometry,
-  LineBasicMaterial,
-  BufferGeometry,
-  Line
-} from "three";
-import { Vec3 } from "cannon";
-import { TimelineMax } from "gsap";
+import { SphereGeometry, Frustum, Matrix4, BoxGeometry, Object3D } from "three";
+import { Vec3, Body } from "cannon";
+import { TimelineMax, TweenMax, Power0, Power1, gsap } from "gsap";
 
 import { setupRenderer, setupCannon } from "./setup";
 import { generateSphere } from "./sphere";
@@ -24,7 +16,9 @@ let fpsInterval, startTime, now, then, elapsed;
 
 let shapeBuilt = false;
 let sphereGeneration = false;
-
+const sphereGroup = new Object3D();
+scene.add(sphereGroup);
+const cannonGroup = new Body();
 const shapes = {
   rectangle: {
     visible: false,
@@ -68,13 +62,24 @@ function updatePhysics() {
     sphere.position.copy(body.position);
     sphere.quaternion.copy(body.quaternion);
   }
+
+  // if (shapeBuilt) {
+  //   sphereGroup.rotation.y += 0.0005;
+  //   sphereGroup.rotation.x += 0.0005;
+  //   sphereGroup.rotation.z -= 0.003;
+  // }
 }
 
 function animateShape(shape) {
   const geometryVertices = shape.geometry.vertices;
 
+  const tl = gsap.timeline({
+    onComplete: () => {
+      shapeBuilt = true;
+    }
+  });
   for (let i = 0; i < objectStack.length; i++) {
-    const { body: cannonBody } = objectStack[i];
+    const { body: cannonBody, sphere } = objectStack[i];
 
     if (i <= geometryVertices.length - 1) {
       if (objectStack.length < geometryVertices.length) {
@@ -90,14 +95,16 @@ function animateShape(shape) {
           objectStack
         );
       }
-      const tl = new TimelineMax();
+
+      const childTl = gsap.timeline();
+
       const { x, y, z } = geometryVertices[i];
       cannonBody.sleep();
-      tl.to(cannonBody.position, { x, y, z });
+      childTl.to(cannonBody.position, { x, y, z });
+      tl.add(childTl, 0);
     }
   }
-
-  shapeBuilt = true;
+  console.log("what about me ->", sphereGroup);
 }
 
 function startAnimation(fps) {
@@ -147,12 +154,24 @@ function animate(timeStamp) {
   renderer.render(scene, camera);
 }
 
+function fadeIn(children) {
+  Array.from(children).map(child => {
+    TweenMax.to(child, 0.7, {
+      css: {
+        opacity: 1,
+        y: 10
+      },
+      ease: Power1.easeOut
+    });
+  });
+}
+
 setupObserver(section => {
-  if (section === "section-1") {
+  if (section.id === "section-1") {
+    fadeIn(section.children);
     for (let i = 0; i < objectStack.length; i++) {
       const { body: cannonBody } = objectStack[i];
       cannonBody.wakeUp();
-      // cannonBody.applyImpulse(new Vec3(2, 2, 1));
       cannonBody.velocity.set(
         generateRandomNumber(-5, 5),
         generateRandomNumber(-5, 5),
@@ -160,10 +179,18 @@ setupObserver(section => {
       );
     }
     sphereGeneration = true;
-  } else if (section === "section-2") {
+  } else if (section.id === "section-2") {
+    // sphereGroup.rotation.y = 0;
+    // sphereGroup.rotation.x = 0;
+    // sphereGroup.rotation.z = 0;
+    // sphereGroup.children = [];
+    fadeIn(section.children);
     sphereGeneration = false;
     animateShape(shapes.rectangle);
-  } else if (section === "section-3") {
+    console.log("what about now ->", objectStack);
+  } else if (section.id === "section-3") {
+    sphereGroup.children = [];
+    fadeIn(section.children);
     sphereGeneration = false;
     animateShape(shapes.sphere);
   }
