@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
 
 module.exports = {
   mode: "development",
@@ -30,7 +31,17 @@ module.exports = {
             loader: "html-loader"
           }
         ]
-      }
+      },
+      {
+				test: /\.(glsl|frag|vert)$/,
+				use: ['glslify-import-loader', 'raw-loader', 'glslify-loader']
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader',
+        ],
+      },
     ]
   },
   plugins: [
@@ -43,10 +54,14 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html"
-    })
+    }),
+    new webpack.ProvidePlugin({
+			'THREE': 'three'
+		})
   ],
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist")
-  }
+  },
+  
 };

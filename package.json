@@ -10,21 +10,30 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "cannon": "^0.6.2",
-    "debounce": "^1.2.0",
+    "browser-detect": "^0.2.28",
+    "domready": "^1.0.8",
+    "glsl-noise": "0.0.0",
     "gsap": "^3.2.4",
-    "three": "^0.113.2"
+    "three": "^0.113.2",
+    "stats.js": "^0.17.0",
+    "vivus": "^0.4.5"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
+    "eslint": "^6.8.0",
+    "file-loader": "^6.0.0",
     "gh-pages": "^2.2.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "style-loader": "^1.1.3",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "glslify": "^6.2.1",
+    "glslify-import-loader": "^0.1.2",
+    "glslify-loader": "^1.0.2",
+    "raw-loader": "^0.5.1"
   }
 }
