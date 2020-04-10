@@ -3,65 +3,59 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const webpack = require('webpack');
+const webpack = require("webpack");
 
 module.exports = {
   mode: "development",
   entry: {
-    app: "./src/index.js"
+    app: "./src/index.js",
   },
   output: {
-    publicPath: "/assets/"
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist"),
   },
   devtool: "inline-source-map",
   devServer: {
     contentBase: "./dist",
-    index: "index.html"
+    index: "index.html",
   },
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader"
-          }
-        ]
+            loader: "html-loader",
+          },
+        ],
       },
       {
-				test: /\.(glsl|frag|vert)$/,
-				use: ['glslify-import-loader', 'raw-loader', 'glslify-loader']
+        test: /\.(glsl|frag|vert)$/,
+        use: ["glslify-import-loader", "raw-loader", "glslify-loader"],
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          'file-loader',
-        ],
+        use: ["file-loader"],
       },
-    ]
+    ],
   },
   plugins: [
     // new CleanWebpackPlugin(['dist/*']) for < v2 versions of CleanWebpackPlugin
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "Development"
+      title: "Development",
     }),
     new CopyWebpackPlugin([{ from: "src/assets", to: "assets" }]),
     new HtmlWebPackPlugin({
       template: "./index.html",
-      filename: "./index.html"
+      filename: "./index.html",
     }),
     new webpack.ProvidePlugin({
-			'THREE': 'three'
-		})
+      THREE: "three",
+    }),
   ],
-  output: {
-    filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "dist")
-  },
-  
 };
