@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import "./variables.scss";
 
 body {
   --color-text: #fff;
@@ -15,7 +15,7 @@ body {
 
 @font-face {
   font-family: myFirstFont;
-  src: url("/assets/basiersquaremono-regular-webfont.ttf");
+  src: url("/dist/assets/basiersquaremono-regular-webfont.ttf");
 }
 
 h1 {
@@ -51,7 +51,7 @@ a {
   flex-direction: column;
   justify-content: center;
   font-family: myFirstFont;
-  
+
   @include md {
     width: 40%;
   }
