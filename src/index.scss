@@ -1,0 +1,104 @@
+@import './variables.scss';
+
+body {
+  --color-text: #fff;
+  --color-bg: #151515;
+  --color-link: #ee9a00;
+  --color-link-hover: #8e5c00;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-family: Futura, "futura-pt", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+}
+
+@font-face {
+  font-family: myFirstFont;
+  src: url("/assets/basiersquaremono-regular-webfont.ttf");
+}
+
+h1 {
+  font-size: 2rem;
+  @include md {
+    font-size: 4rem;
+  }
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: bold;
+  @include md {
+    font-size: 1.5rem;
+    line-height: 1.5;
+  }
+}
+
+a {
+  font-size: 1.2rem;
+}
+
+.canvasContainer {
+  position: fixed;
+}
+
+.about {
+  position: absolute;
+  margin: 5% 5% 0 5%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: myFirstFont;
+  
+  @include md {
+    width: 40%;
+  }
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.icon {
+  fill: white;
+  margin: 10px 10px;
+}
+
+.link {
+  width: fit-content;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.babylon-green {
+  color: gold;
+}
+
+.times-blue {
+  color: gold;
+}
+
+.cursor {
+  display: none;
+  @include md {
+    display: block;
+    pointer-events: none;
+  }
+}
+
+.cursor__ball {
+  position: fixed;
+  top: 0;
+  left: 0;
+  mix-blend-mode: difference;
+  z-index: 1000;
+}
+
+circle {
+  fill: #f7f8fa;
+}

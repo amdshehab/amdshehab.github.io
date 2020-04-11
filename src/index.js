@@ -1,7 +1,7 @@
 import ready from "domready";
 
 import App from "./scripts/App";
-import "./index.css";
+import "./index.scss";
 import "./scripts/cursor";
 
 ready(() => {

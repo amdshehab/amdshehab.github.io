@@ -60,8 +60,6 @@ export default class Particles {
       for (let i = 0; i < this.numPoints; i++) {
         if (originalColors[i * 4 + 0] > threshold) numVisible++;
       }
-
-      // console.log('numVisible', numVisible, this.numPoints);
     }
 
     const uniforms = {
@@ -194,14 +192,17 @@ export default class Particles {
   }
 
   show(time = 1.0) {
-    // reset
+    // Size of particle
+    const size = window.screen.width < 420 ? 1: 2;
+
     TweenLite.fromTo(
       this.object3D.material.uniforms.uSize,
       time,
       { value: 0.5 },
-      { value: 2.5 }
+      { value: size }
     );
-    TweenLite.to(this.object3D.material.uniforms.uRandom, time, { value: 2 });
+    // Randomness
+    TweenLite.to(this.object3D.material.uniforms.uRandom, time, { value: 0 });
     TweenLite.fromTo(
       this.object3D.material.uniforms.uDepth,
       time * 1.5,
@@ -256,6 +257,18 @@ export default class Particles {
   resize() {
     if (!this.object3D) return;
 
+    if (window.screen.width <= 420) {
+      console.log("whats my width ->", window.screen.width);
+      this.container.position.x = 0
+      this.container.position.y = 0;
+      this.webgl.particles.object3D.material.uniforms.uSize.value = 1;
+      console.log("what? here?");
+    } else {
+      this.container.position.x = 100;
+      this.container.position.y = 10;
+      this.webgl.particles.object3D.material.uniforms.uSize.value = 2;
+    }
+    
     const scale = this.webgl.fovHeight / this.height;
     this.object3D.scale.set(scale, scale, 1);
     this.hitArea.scale.set(scale, scale, 1);

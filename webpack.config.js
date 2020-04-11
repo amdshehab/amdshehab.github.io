@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require("webpack");
 
 module.exports = {
@@ -22,8 +23,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.s[ac]ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          // Creates `style` nodes from JS strings
+          // 'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
       },
       {
         test: /\.html$/,
@@ -57,5 +66,9 @@ module.exports = {
     new webpack.ProvidePlugin({
       THREE: "three",
     }),
+    new MiniCssExtractPlugin({
+      filename: "style.css",
+      chunkFilename: "[name].css"
+    })
   ],
 };

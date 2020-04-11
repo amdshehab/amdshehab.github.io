@@ -97,6 +97,10 @@ export default class WebGLView {
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
+    if (window.screen.width <= 420) {
+      this.camera.position.setZ(500)
+      console.log("what ->", this.camera.position);
+    }
     if (this.interactive) this.interactive.resize();
     if (this.particles) this.particles.resize();
   }
