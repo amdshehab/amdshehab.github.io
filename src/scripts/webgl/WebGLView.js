@@ -6,7 +6,7 @@ export default class WebGLView {
   constructor(app) {
     this.app = app;
 
-    this.samples = ["/assets/glasses.png"];
+    this.samples = ["/dist/assets/glasses.png"];
 
     this.initThree();
     this.initParticles();
@@ -98,7 +98,7 @@ export default class WebGLView {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     if (window.screen.width <= 420) {
-      this.camera.position.setZ(500)
+      this.camera.position.setZ(500);
       console.log("what ->", this.camera.position);
     }
     if (this.interactive) this.interactive.resize();
