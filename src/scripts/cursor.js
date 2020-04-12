@@ -1,18 +1,18 @@
 import { TweenMax } from "gsap";
 
-if (window.screen.width > 420) {
+if (false) {
   (() => {
     const $bigBall = document.querySelector(".cursor__ball--big");
     const $smallBall = document.querySelector(".cursor__ball--small");
     const $hoverables = document.querySelectorAll(".hoverable");
-    
+
     // Listeners
     document.body.addEventListener("mousemove", onMouseMove);
     for (let i = 0; i < $hoverables.length; i++) {
       $hoverables[i].addEventListener("mouseenter", onMouseHover);
       $hoverables[i].addEventListener("mouseleave", onMouseHoverOut);
     }
-    
+
     // Move the cursor
     function onMouseMove(e) {
       TweenMax.to($bigBall, 0.4, {
@@ -24,7 +24,7 @@ if (window.screen.width > 420) {
         y: e.pageY - 7,
       });
     }
-    
+
     // Hover an element
     function onMouseHover() {
       TweenMax.to($bigBall, 0.3, {
@@ -36,5 +36,5 @@ if (window.screen.width > 420) {
         scale: 1,
       });
     }
-  })()
+  })();
 }

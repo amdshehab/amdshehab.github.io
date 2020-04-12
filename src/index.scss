@@ -2,7 +2,7 @@
 
 body {
   --color-text: #fff;
-  --color-bg: #151515;
+  --color-bg: #000000;
   --color-link: #ee9a00;
   --color-link-hover: #8e5c00;
   color: var(--color-text);
@@ -10,7 +10,7 @@ body {
   font-family: Futura, "futura-pt", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: none;
+  // cursor: none;
 }
 
 @font-face {
@@ -37,6 +37,7 @@ p {
 
 a {
   font-size: 1.2rem;
+  // cursor: none;
 }
 
 .canvasContainer {
@@ -75,12 +76,8 @@ a {
   align-items: center;
 }
 
-.babylon-green {
-  color: gold;
-}
-
-.times-blue {
-  color: gold;
+.golden {
+  color: #ffd700;
 }
 
 .cursor {
@@ -101,4 +98,15 @@ a {
 
 circle {
   fill: #f7f8fa;
+}
+
+.block-revealer__element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  pointer-events: none;
+  opacity: 0;
 }
