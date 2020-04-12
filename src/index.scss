@@ -110,3 +110,10 @@ circle {
   pointer-events: none;
   opacity: 0;
 }
+
+.content__title__inner {
+  opacity: 1;
+  > * {
+    opacity: 0;
+  }
+}
