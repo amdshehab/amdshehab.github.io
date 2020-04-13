@@ -50,7 +50,6 @@ export default class InteractiveControls extends EventEmitter {
     this.handlerMove = this.onMove.bind(this);
     this.handlerUp = this.onUp.bind(this);
     this.handlerLeave = this.onLeave.bind(this);
-
     if (this.browser.mobile) {
       this.el.addEventListener("touchstart", this.handlerDown, passiveEvent);
       this.el.addEventListener("touchmove", this.handlerMove, passiveEvent);

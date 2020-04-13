@@ -1,14 +1,10 @@
 import ready from "domready";
 
 import App from "./scripts/App";
+import "./scripts/fade";
 import "./index.scss";
-import "./scripts/cursor";
-import { animationComplete } from "./scripts/boxReveal";
 
+window.app = new App();
 ready(() => {
-  window.app = new App();
-  window.app.init(animationComplete);
-  // animationComplete.then((res) => {
-  //   window.app.postInitialAnimate();
-  // });
+  window.app.init();
 });

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { TweenLite } from "gsap";
-import { animationComplete } from "../../boxReveal";
 import TouchTexture from "./TouchTexture";
+import { animationComplete } from "../../fade";
 
 const glslify = require("glslify");
 
@@ -28,7 +28,8 @@ export default class Particles {
       this.initPoints(true);
       this.initHitArea();
       this.initTouch();
-      animationComplete.then((_) => {
+      // promise here
+      animationComplete.then(() => {
         this.resize();
         this.show();
       });
@@ -259,15 +260,15 @@ export default class Particles {
   resize() {
     if (!this.object3D) return;
 
-    if (window.screen.width <= 420) {
-      this.container.position.x = 0;
-      this.container.position.y = 0;
-      this.webgl.particles.object3D.material.uniforms.uSize.value = 1;
-    } else {
-      this.container.position.x = 100;
-      this.container.position.y = 10;
-      this.webgl.particles.object3D.material.uniforms.uSize.value = 2;
-    }
+    // if (window.screen.width <= 420) {
+    //   this.container.position.x = 0;
+    //   this.container.position.y = 0;
+    //   this.webgl.particles.object3D.material.uniforms.uSize.value = 1;
+    // } else {
+    //   this.container.position.x = 100;
+    //   this.container.position.y = 10;
+    //   this.webgl.particles.object3D.material.uniforms.uSize.value = 2;
+    // }
 
     const scale = this.webgl.fovHeight / this.height;
     this.object3D.scale.set(scale, scale, 1);
