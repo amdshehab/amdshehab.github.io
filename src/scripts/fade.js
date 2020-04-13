@@ -4,7 +4,7 @@ const targetedElements = Array.from(document.querySelectorAll(".fade"));
 
 export const animationComplete = new Promise((res, rej) => {
   const tl = gsap.timeline({
-    onComplete: () => res()),
+    onComplete: () => res(),
   });
 
   tl.fromTo(
