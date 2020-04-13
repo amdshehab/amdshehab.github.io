@@ -3,8 +3,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
+const BrotliPlugin = require("brotli-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -29,9 +32,9 @@ module.exports = {
           // Creates `style` nodes from JS strings
           // 'style-loader',
           // Translates CSS into CommonJS
-          'css-loader',
+          "css-loader",
           // Compiles Sass to CSS
-          'sass-loader',
+          "sass-loader",
         ],
       },
       {
@@ -63,12 +66,27 @@ module.exports = {
       template: "./index.html",
       filename: "./index.html",
     }),
-    new webpack.ProvidePlugin({
-      THREE: "three",
-    }),
     new MiniCssExtractPlugin({
       filename: "style.css",
-      chunkFilename: "[name].css"
-    })
+      chunkFilename: "[name].css",
+    }),
+    new BundleAnalyzerPlugin(),
+    new BrotliPlugin({
+      asset: "[path].br[query]",
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8,
+    }),
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
+    },
+  },
 };

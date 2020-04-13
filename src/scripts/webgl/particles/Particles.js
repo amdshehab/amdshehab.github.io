@@ -1,4 +1,17 @@
-import * as THREE from "three";
+import {
+  Object3D,
+  TextureLoader,
+  LinearFilter,
+  RGBFormat,
+  RawShaderMaterial,
+  Vector2,
+  InstancedBufferGeometry,
+  BufferAttribute,
+  InstancedBufferAttribute,
+  PlaneGeometry,
+  MeshBasicMaterial,
+  Mesh,
+} from "three";
 import { TweenLite } from "gsap";
 import TouchTexture from "./TouchTexture";
 import { animationComplete } from "../../fade";
@@ -8,19 +21,19 @@ const glslify = require("glslify");
 export default class Particles {
   constructor(webgl) {
     this.webgl = webgl;
-    this.container = new THREE.Object3D();
+    this.container = new Object3D();
     this.container.position.x = 100;
     this.container.position.y = 10;
   }
 
   init(src) {
-    const loader = new THREE.TextureLoader();
+    const loader = new TextureLoader();
 
     loader.load(src, (texture) => {
       this.texture = texture;
-      this.texture.minFilter = THREE.LinearFilter;
-      this.texture.magFilter = THREE.LinearFilter;
-      this.texture.format = THREE.RGBFormat;
+      this.texture.minFilter = LinearFilter;
+      this.texture.magFilter = LinearFilter;
+      this.texture.format = RGBFormat;
 
       this.width = texture.image.width;
       this.height = texture.image.height;
@@ -70,24 +83,24 @@ export default class Particles {
       uRandom: { value: 1.0 },
       uDepth: { value: 2.0 },
       uSize: { value: 0.0 },
-      uTextureSize: { value: new THREE.Vector2(this.width, this.height) },
+      uTextureSize: { value: new Vector2(this.width, this.height) },
       uTexture: { value: this.texture },
       uTouch: { value: null },
     };
 
-    const material = new THREE.RawShaderMaterial({
+    const material = new RawShaderMaterial({
       uniforms,
       vertexShader: glslify(require("../../../shaders/particle.vert")),
       fragmentShader: glslify(require("../../../shaders/particle.frag")),
       depthTest: false,
       transparent: true,
-      // blending: THREE.AdditiveBlending
+      // blending: AdditiveBlending
     });
 
-    const geometry = new THREE.InstancedBufferGeometry();
+    const geometry = new InstancedBufferGeometry();
 
     // positions
-    const positions = new THREE.BufferAttribute(new Float32Array(4 * 3), 3);
+    const positions = new BufferAttribute(new Float32Array(4 * 3), 3);
     positions.setXYZ(0, -0.5, 0.5, 0.0);
     positions.setXYZ(1, 0.5, 0.5, 0.0);
     positions.setXYZ(2, -0.5, -0.5, 0.0);
@@ -95,7 +108,7 @@ export default class Particles {
     geometry.addAttribute("position", positions);
 
     // uvs
-    const uvs = new THREE.BufferAttribute(new Float32Array(4 * 2), 2);
+    const uvs = new BufferAttribute(new Float32Array(4 * 2), 2);
     uvs.setXYZ(0, 0.0, 0.0);
     uvs.setXYZ(1, 1.0, 0.0);
     uvs.setXYZ(2, 0.0, 1.0);
@@ -104,7 +117,7 @@ export default class Particles {
 
     // index
     geometry.setIndex(
-      new THREE.BufferAttribute(new Uint16Array([0, 2, 1, 2, 3, 1]), 1)
+      new BufferAttribute(new Uint16Array([0, 2, 1, 2, 3, 1]), 1)
     );
 
     const indices = new Uint16Array(numVisible);
@@ -126,18 +139,18 @@ export default class Particles {
 
     geometry.addAttribute(
       "pindex",
-      new THREE.InstancedBufferAttribute(indices, 1, false)
+      new InstancedBufferAttribute(indices, 1, false)
     );
     geometry.addAttribute(
       "offset",
-      new THREE.InstancedBufferAttribute(offsets, 3, false)
+      new InstancedBufferAttribute(offsets, 3, false)
     );
     geometry.addAttribute(
       "angle",
-      new THREE.InstancedBufferAttribute(angles, 1, false)
+      new InstancedBufferAttribute(angles, 1, false)
     );
 
-    this.object3D = new THREE.Mesh(geometry, material);
+    this.object3D = new Mesh(geometry, material);
     this.container.add(this.object3D);
   }
 
@@ -148,14 +161,14 @@ export default class Particles {
   }
 
   initHitArea() {
-    const geometry = new THREE.PlaneGeometry(this.width, this.height, 1, 1);
-    const material = new THREE.MeshBasicMaterial({
+    const geometry = new PlaneGeometry(this.width, this.height, 1, 1);
+    const material = new MeshBasicMaterial({
       color: 0xffffff,
       wireframe: true,
       depthTest: false,
     });
     material.visible = false;
-    this.hitArea = new THREE.Mesh(geometry, material);
+    this.hitArea = new Mesh(geometry, material);
     this.container.add(this.hitArea);
   }
 

@@ -1,5 +1,5 @@
 import EventEmitter from "events";
-import * as THREE from "three";
+import { Plane, Raycaster, Vector2, Vector3 } from "three";
 import browser from "browser-detect";
 
 import { passiveEvent } from "../../utils/event.utils.js";
@@ -15,12 +15,12 @@ export default class InteractiveControls extends EventEmitter {
     this.camera = camera;
     this.el = el || window;
 
-    this.plane = new THREE.Plane();
-    this.raycaster = new THREE.Raycaster();
+    this.plane = new Plane();
+    this.raycaster = new Raycaster();
 
-    this.mouse = new THREE.Vector2();
-    this.offset = new THREE.Vector3();
-    this.intersection = new THREE.Vector3();
+    this.mouse = new Vector2();
+    this.offset = new Vector3();
+    this.intersection = new Vector3();
 
     this.objects = [];
     this.hovered = null;

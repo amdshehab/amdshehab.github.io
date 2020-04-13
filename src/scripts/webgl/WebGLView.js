@@ -1,4 +1,4 @@
-import "three";
+import { Scene, PerspectiveCamera, WebGLRenderer, Clock } from "three";
 import InteractiveControls from "./controls/InteractiveControls";
 import Particles from "./particles/Particles";
 
@@ -18,10 +18,10 @@ export default class WebGLView {
 
   initThree() {
     // scene
-    this.scene = new THREE.Scene();
+    this.scene = new Scene();
 
     // camera
-    this.camera = new THREE.PerspectiveCamera(
+    this.camera = new PerspectiveCamera(
       50,
       window.innerWidth / window.innerHeight,
       1,
@@ -30,10 +30,10 @@ export default class WebGLView {
     this.camera.position.z = 300;
 
     // renderer
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.renderer = new WebGLRenderer({ antialias: true, alpha: true });
 
     // clock
-    this.clock = new THREE.Clock(true);
+    this.clock = new Clock(true);
   }
 
   initControls() {
