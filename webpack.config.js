@@ -70,7 +70,7 @@ module.exports = {
       filename: "style.css",
       chunkFilename: "[name].css",
     }),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     new BrotliPlugin({
       asset: "[path].br[query]",
       test: /\.(js|css|html|svg)$/,
